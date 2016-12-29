@@ -4,8 +4,6 @@
 
         // Set up elevator behaviour
         elevators.forEach(function(elevator) {
-        	// Initialize destination queue so idle elevators start on floor 0
-        	elevator.destinationQueue = [0];
 
         	// Handle floor button presses
 	        elevator.on("floor_button_pressed", function(floorNum) {
