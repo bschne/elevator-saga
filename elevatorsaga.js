@@ -18,8 +18,15 @@
 	        });
 
 	        elevator.on("passing_floor", function(floorNum, direction) {
-	        	// Reschedule a stop at the next floor if the direction is right
-	        	if(direction === elevator.destinationDirection()) {
+	        	// Reschedule a stop at the next floor if the direction is right (only if elevator isn't full)
+	        	if(direction === elevator.destinationDirection() && elevator.loadFactor() <= 0.8) {
+	        		
+	        		// Remove rescheduled floor from Queue if it is already queued
+	        		var floorNumIndex = elevator.destinationQueue.indexOf(floorNum)
+	        		if(floorNumIndex !== -1) {
+	        			elevator.destinationQueue.splice(floorNumIndex, 1);
+	        		}
+
 	        		elevator.destinationQueue.unshift(floorNum);
 	        		elevator.checkDestinationQueue();
 	        	}
