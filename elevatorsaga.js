@@ -51,8 +51,11 @@
 	        });
 
 	        elevator.on("passing_floor", function(floorNum, direction) {
-	        	// Reschedule a stop at the next floor if the direction is right (only if elevator isn't full)
-	        	if(direction === elevator.destinationDirection() && elevator.loadFactor() <= 0.8) {
+	        	// If someone is waiting, reschedule a stop at the next floor 
+	        	// if the direction is right and the elevator isn't full
+	        	if(direction === elevator.destinationDirection() && 
+	        	   floorQueue.indexOf(floorNum) !== -1 &&
+	        	   elevator.loadFactor() <= 0.8) {
 	        		rescheduleStop(elevator, floorNum);
 	        	}
 	        });
@@ -68,7 +71,7 @@
 
         	floor.on("down_button_pressed", function() { 
         		if (floorQueue.indexOf(floor.floorNum()) === -1) {
-        			floorQueue.push(floor.floorNum());	
+        			floorQueue.push(floor.floorNum());
         		}
         	});
         });
