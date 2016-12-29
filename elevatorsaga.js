@@ -24,12 +24,10 @@
         floors.forEach(function(floor) {
         	floor.on("up_button_pressed", function() { 
         		floorQueue.push(floor.floorNum());
-        		console.log(floorQueue);
         	});
 
         	floor.on("down_button_pressed", function() { 
         		floorQueue.push(floor.floorNum());
-        		console.log(floorQueue);
         	});
         });
     },
