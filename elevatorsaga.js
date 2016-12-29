@@ -22,6 +22,7 @@
             });
 
         	elevator.destinationQueue.push(floorNum);
+            sortQueue(elevator);
         	elevator.checkDestinationQueue();
 
             updateElevatorIndicator(elevator);
@@ -29,12 +30,11 @@
 
         // Reschedules an elevator to go to a new floor first
         var rescheduleStop = function(elevator, floorNum) {
-            elevators.forEach(function(ele) {
-                var elevatorQueueIndex = ele.destinationQueue.indexOf(floorNum);
-                if(elevatorQueueIndex !== -1) {
-                    ele.destinationQueue.splice(elevatorQueueIndex, 1);
-                }
-            });
+            
+            var elevatorQueueIndex = elevator.destinationQueue.indexOf(floorNum);
+            if(elevatorQueueIndex !== -1) {
+                elevator.destinationQueue.splice(elevatorQueueIndex, 1);
+            }
 
     		// Remove floor from floorQueue
             floorQueue = floorQueue.filter(function(e) {
@@ -67,6 +67,17 @@
             }
         }
 
+        // Sorts the destination queue of a given elevator depending on its direction
+        var sortQueue = function(elevator) {
+            if (elevator.destinationDirection() === "up") {
+                elevator.destinationQueue.sort(function(a,b) { return a-b })
+            } else if (elevator.destinationDirection() === "down") {
+                elevator.destinationQueue.sort(function(a,b) { return b-a })
+            } else {
+                elevator.destinationQueue.sort(function(a,b) { return a-b })
+            }
+        }
+
         // Set up elevator behaviour
         elevators.forEach(function(elevator) {
 
@@ -77,6 +88,8 @@
 
 	        // Whenever the elevator is idle (has no more queued destinations) ...
 	        elevator.on("idle", function() {
+                elevator.goingUpIndicator(false);
+                elevator.goingDownIndicator(false);
                 var floorNum = floorQueue.length > 0 ? floorQueue.shift().floorNum : 0;
 	            scheduleStop(elevator, floorNum);
 	        });
@@ -84,7 +97,7 @@
 	        elevator.on("passing_floor", function(floorNum, direction) {
 	        	// If someone is waiting, reschedule a stop at the next floor 
 	        	// if the direction is right and the elevator isn't full
-	        	if(floorQueue.filter(function(e) { return e.floorNum === floorNum && direction === elevator.destinationDirection() }).length > 0 &&
+	        	if(floorQueue.filter(function(e) { return (e.floorNum === floorNum) && (direction === elevator.destinationDirection()) }).length > 0 &&
 	        	   elevator.loadFactor() <= 0.8) {
 	        		rescheduleStop(elevator, floorNum);
 	        	}
