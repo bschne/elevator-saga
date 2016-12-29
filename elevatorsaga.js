@@ -18,7 +18,7 @@
 
         	// Remove floor from floorQueue
             floorQueue = floorQueue.filter(function(e) {
-                return (e.floorNum !== floorNum) || (e.direction !== elevator.destinationDirection);
+                return (e.floorNum !== floorNum) || (e.direction !== elevator.destinationDirection());
             });
 
         	elevator.destinationQueue.push(floorNum);
@@ -38,7 +38,7 @@
 
     		// Remove floor from floorQueue
             floorQueue = floorQueue.filter(function(e) {
-                return (e.floorNum !== floorNum) || (e.direction !== elevator.destinationDirection);
+                return (e.floorNum !== floorNum) || (e.direction !== elevator.destinationDirection());
             });
 
     		// Add floor to the beginning of the queue
@@ -105,13 +105,13 @@
         // Set up floor behaviour
         floors.forEach(function(floor) {
         	floor.on("up_button_pressed", function() { 
-                if (floorQueue.filter(function(e) { return (e.floorNum === floor.floorNum) && (e.direction === "up") }).length === 0) {
+                if (floorQueue.filter(function(e) { return (e.floorNum === floor.floorNum()) && (e.direction === "up") }).length === 0) {
                     floorQueue.push(new FloorCall(floor.floorNum(), "up"));
                 }
         	});
 
         	floor.on("down_button_pressed", function() { 
-        		if (floorQueue.filter(function(e) { return (e.floorNum === floor.floorNum) && (e.direction === "down") }).length === 0) {
+        		if (floorQueue.filter(function(e) { return (e.floorNum === floor.floorNum()) && (e.direction === "down") }).length === 0) {
                     floorQueue.push(new FloorCall(floor.floorNum(), "down"));
                 }
         	});
