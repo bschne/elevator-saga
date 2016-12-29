@@ -1,5 +1,5 @@
 # Elevator Saga Solution
-This repository contains my solution to the elevator programming game [*Elevator Saga*](http://play.elevatorsaga.com/). It is currently a work in progress and still being worked on.
+This repository contains my solution to the elevator programming game [*Elevator Saga*](http://play.elevatorsaga.com/). It is currently a work in progress and still being tweaked.
 
 ## Challenge Progress
 The current algorithm passes the following challenges:
