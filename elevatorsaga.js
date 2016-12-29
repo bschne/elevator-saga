@@ -2,33 +2,58 @@
     init: function(elevators, floors) {
         var floorQueue = [];
 
+        // Set up functions
+        var scheduleStop = function(elevator, floorNum) {
+        	var elevatorQueueIndex = elevator.destinationQueue.indexOf(floorNum);
+        	if(elevatorQueueIndex !== -1) {
+        		elevator.destinationQueue.splice(elevatorQueueIndex, 1);
+        	}
+
+        	// Remove floor from floorQueue
+        	var floorQueueIndex = floorQueue.indexOf(floorNum);
+        	if(floorQueueIndex !== -1) {
+        		floorQueue.splice(floorQueueIndex, 1);
+        	}
+
+        	elevator.destinationQueue.push(floorNum);
+        	elevator.checkDestinationQueue();
+        }
+
+        var rescheduleStop = function(elevator, floorNum) {
+        	// Remove rescheduled floor from Queue if it is already queued
+    		var elevatorQueueIndex = elevator.destinationQueue.indexOf(floorNum);
+    		if(elevatorQueueIndex !== -1) {
+    			elevator.destinationQueue.splice(elevatorQueueIndex, 1);
+    		}
+
+    		// Remove floor from floorQueue
+        	var floorQueueIndex = floorQueue.indexOf(floorNum);
+        	if(floorQueueIndex !== -1) {
+        		floorQueue.splice(floorQueueIndex, 1);
+        	}
+
+    		// Add floor to the beginning of the queue
+    		elevator.destinationQueue.unshift(floorNum);
+    		elevator.checkDestinationQueue();
+        }
+
         // Set up elevator behaviour
         elevators.forEach(function(elevator) {
 
         	// Handle floor button presses
 	        elevator.on("floor_button_pressed", function(floorNum) {
-	        	elevator.destinationQueue.push(floorNum);
-	        	elevator.checkDestinationQueue;
+	        	scheduleStop(elevator, floorNum);
 	        });
 
 	        // Whenever the elevator is idle (has no more queued destinations) ...
 	        elevator.on("idle", function() {
-	            elevator.destinationQueue.push(floorQueue.shift() || 0);
-	            elevator.checkDestinationQueue();
+	            scheduleStop(elevator, floorQueue.shift() || 0);
 	        });
 
 	        elevator.on("passing_floor", function(floorNum, direction) {
 	        	// Reschedule a stop at the next floor if the direction is right (only if elevator isn't full)
 	        	if(direction === elevator.destinationDirection() && elevator.loadFactor() <= 0.8) {
-	        		
-	        		// Remove rescheduled floor from Queue if it is already queued
-	        		var floorNumIndex = elevator.destinationQueue.indexOf(floorNum)
-	        		if(floorNumIndex !== -1) {
-	        			elevator.destinationQueue.splice(floorNumIndex, 1);
-	        		}
-
-	        		elevator.destinationQueue.unshift(floorNum);
-	        		elevator.checkDestinationQueue();
+	        		rescheduleStop(elevator, floorNum);
 	        	}
 	        });
         });
@@ -36,11 +61,15 @@
         // Set up floor behaviour
         floors.forEach(function(floor) {
         	floor.on("up_button_pressed", function() { 
-        		floorQueue.push(floor.floorNum());
+        		if (floorQueue.indexOf(floor.floorNum()) === -1) {
+					floorQueue.push(floor.floorNum());
+        		}
         	});
 
         	floor.on("down_button_pressed", function() { 
-        		floorQueue.push(floor.floorNum());
+        		if (floorQueue.indexOf(floor.floorNum()) === -1) {
+        			floorQueue.push(floor.floorNum());	
+        		}
         	});
         });
     },
