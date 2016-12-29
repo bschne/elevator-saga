@@ -16,6 +16,14 @@
 	            elevator.destinationQueue.push(floorQueue.shift() || 0);
 	            elevator.checkDestinationQueue();
 	        });
+
+	        elevator.on("passing_floor", function(floorNum, direction) {
+	        	// Reschedule a stop at the next floor if the direction is right
+	        	if(direction === elevator.destinationDirection()) {
+	        		elevator.destinationQueue.unshift(floorNum);
+	        		elevator.checkDestinationQueue();
+	        	}
+	        });
         });
 
         // Set up floor behaviour
