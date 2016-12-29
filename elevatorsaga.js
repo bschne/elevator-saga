@@ -15,7 +15,7 @@
 
 	        // Whenever the elevator is idle (has no more queued destinations) ...
 	        elevator.on("idle", function() {
-	            elevator.destinationQueue.push(floorQueue.shift());
+	            elevator.destinationQueue.push(floorQueue.shift() || 0);
 	            elevator.checkDestinationQueue();
 	        });
         });
