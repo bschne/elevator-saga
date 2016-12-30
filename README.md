@@ -13,8 +13,8 @@ The current algorithm passes the following challenges:
 | 5 | Transport 100 people in 68 seconds or less | Passing |
 | 6 | Transport 40 people in 60 moves or less | Passing |
 | 7 | Transport 100 people in 63 moves or less | Passing |
-| 8 | Transport 50 people with a maximum wait time of 21 seconds | Passing |
-| 9 | Transport 50 people with a maximum wait time of 20 seconds | Passing |
+| 8 | Transport 50 people with a maximum wait time of 21 seconds | Failing |
+| 9 | Transport 50 people with a maximum wait time of 20 seconds | Failing |
 | 10 | Transport 50 people in 70 seconds or less | Failing |
 | 11 | Transport 60 people with a maximum wait time of 19 seconds | Failing |
 | 12 | Transport 80 people with a maximum wait time of 17 seconds | Failing |
