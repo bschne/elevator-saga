@@ -2,7 +2,7 @@
 This repository contains my solution to the elevator programming game [*Elevator Saga*](http://play.elevatorsaga.com/). It is currently a work in progress and still being tweaked.
 
 ## Challenge Progress
-The current algorithm passes the following challenges:
+The current algorithm passes the following challenges. Note that the challenges are partially random, so it may take more than one try to pass a challenge in some cases.
 
 | Challenge | Condition | Status |
 |---|---|---|
@@ -13,10 +13,10 @@ The current algorithm passes the following challenges:
 | 5 | Transport 100 people in 68 seconds or less | Passing |
 | 6 | Transport 40 people in 60 moves or less | Passing |
 | 7 | Transport 100 people in 63 moves or less | Passing |
-| 8 | Transport 50 people with a maximum wait time of 21 seconds | Failing |
-| 9 | Transport 50 people with a maximum wait time of 20 seconds | Failing |
-| 10 | Transport 50 people in 70 seconds or less | Failing |
-| 11 | Transport 60 people with a maximum wait time of 19 seconds | Failing |
+| 8 | Transport 50 people with a maximum wait time of 21 seconds | Passing |
+| 9 | Transport 50 people with a maximum wait time of 20 seconds | Passing |
+| 10 | Transport 50 people in 70 seconds or less | Passing |
+| 11 | Transport 60 people with a maximum wait time of 19 seconds | Passing |
 | 12 | Transport 80 people with a maximum wait time of 17 seconds | Failing |
 | 13 | Transport 100 people with a maximum wait time of 15 seconds | Failing |
 | 14 | Transport 110 people with a maximum wait time of 15 seconds | Failing |
