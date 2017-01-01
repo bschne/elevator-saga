@@ -1,19 +1,22 @@
 {
     init: function(elevators, floors) {
         elevators.forEach(function(elevator, index) {
-            elevator.on("idle", function() {
-                elevator.goToFloor(0);
-            });
-
+            
             elevator.on("floor_button_pressed", function(floorNum) {
                 if (elevator.destinationQueue.indexOf(floorNum) == -1) { elevator.goToFloor(floorNum); }
-                // TODO: Sort queue
             });
 
             elevator.on("passing_floor", function(floorNum, direction) {
+                // Pick up passengers on the floor if there is room
                 if (elevator.loadFactor() <= 0.7) {
                     if (direction == "up" && floors[floorNum].requestedUp) { elevator.goToFloor(floorNum, true); }
                     if (direction == "down" && floors[floorNum].requestedDown) { elevator.goToFloor(floorNum, true); }
+                }
+
+                // Stop at the floor first if it is in the queue
+                if (elevator.destinationQueue.indexOf(floorNum) != -1) { 
+                    elevator.destinationQueue.splice(elevator.destinationQueue.indexOf(floorNum), 1);
+                    elevator.goToFloor(floorNum, true); 
                 }
             });
 
@@ -26,7 +29,19 @@
             });
 
             elevator.on("idle", function() {
-                floors.filter(function(f) { return f.requestedUp || f.requestedDown; }).pop();
+                var requestedFloors = floors.filter(function(f) { return f.requestedUp || f.requestedDown; });
+                var distances = requestedFloors.map(function(f) { return Math.abs(f.floorNum() - elevator.currentFloor()); });
+                var floorIndex = Math.min.apply(null, distances);
+                
+                if (requestedFloors[floorIndex]) {
+                    var floorNum = requestedFloors[floorIndex].floorNum();
+
+                    floors[floorNum].requestedUp = false;
+                    floors[floorNum].requestedDown = false;
+                    elevator.goToFloor(floorNum);
+                } else {
+                    elevator.goToFloor(0);
+                }
             })
         });
 
