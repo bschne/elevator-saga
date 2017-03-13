@@ -1,5 +1,5 @@
 # Elevator Saga Solution
-This repository contains my solution to the elevator programming game [*Elevator Saga*](http://play.elevatorsaga.com/). It is currently a work in progress and still being tweaked. A quick guide to the thinking behind the current algorithm can be found [on my blog](http://benjaminschneider.ch/blog/2017/programming-elevators).
+This repository contains my solution to the elevator programming game [*Elevator Saga*](http://play.elevatorsaga.com/). It is currently a work in progress and still being tweaked. A quick guide to the thinking behind the current algorithm can be found [on my blog](http://benjaminschneider.ch/programming-elevators-elevator-saga-guide/).
 
 ## Challenge Progress
 The current algorithm passes the following challenges. Note that the challenges are partially random, so it may take more than one try to pass a challenge in some cases.
